@@ -63,3 +63,22 @@ function addDislikeButton(likeButtonElement) {
 function dislikeClickHandler(e) {
 	const postID = e.target.id.split("-").pop();
 }
+
+// TODO
+// will query the backend, for now just returns placeholder data
+function fetchDislikes(postID) {
+	return [
+		{
+			username: "Nicole Weng",
+			userID: 10790849
+		},
+		{
+			username: "Isabella Shaw",
+			userID: 10781739
+		}
+	];
+}
+
+function profileImageURL(userID) {
+	return `https://asset-cdn.schoology.com/users/${userID}/profile-image/profile_sm`;
+}
