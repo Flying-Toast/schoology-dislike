@@ -27,6 +27,25 @@ function cacheDislikes(postID) {
 	);
 }
 
+//TODO: send to backend
+function toggleDislike(postID) {
+	const postDislikes = getDislikes(postID);
+	const likedByMe = postDislikes.some(i => i.userID == myID());
+	let likeButtonElement = document.querySelector(`#dislike-id-${postID}`).parentNode.querySelector(".like-btn");
+
+	if (likedByMe) {
+		//TODO: send to backend
+		_dislikeCache.set(postID, postDislikes.filter(i => i.userID != myID()));
+	} else {
+		//TODO: send to backend
+		_dislikeCache.set(postID, postDislikes.concat([{
+			name: "TODO Guy",
+			userID: myID()
+		}]));
+	}
+	tickDislikeButton(likeButtonElement);
+}
+
 function getDislikes(postID) {
 	cacheDislikes(postID);
 	return _dislikeCache.get(postID);
@@ -132,6 +151,9 @@ function addDislikeButton(likeButtonElement) {
 		dislikeCount.style.color = "#4479B3";
 		wrapper.appendChild(icon);
 		wrapper.appendChild(dislikeCount);
+		wrapper.addEventListener("click", function() {
+			listDislikers(postID);
+		});
 
 		dislikeButton.parentNode.insertBefore(divider, dislikeButton.nextSibling);
 		divider.parentNode.insertBefore(wrapper, divider.nextSibling);
@@ -169,9 +191,7 @@ function tickDislikeButton(likeButtonElement) {
 
 function dislikeClickHandler(e) {
 	const postID = e.target.id.split("-").pop();
-	//console.log(getDislikes(postID));
-	console.log(isComment(postID));
-	listDislikers(postID);
+	toggleDislike(postID);
 }
 
 let popupInProgress = false;
