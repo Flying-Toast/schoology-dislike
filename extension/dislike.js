@@ -96,7 +96,10 @@ function addDislikeButton(likeButtonElement) {
 	if (isComment(postID)) {
 		let divider = document.createElement("span");
 		divider.style.borderRight = "1px solid #677583";
-		divider.style.margin = "0 4px";
+		divider.style.margin = "0 3px";
+		if (likeButtonElement.parentElement.querySelector(".s-like-comment-icon") == null) {
+			divider.style.borderColor = "transparent";
+		}
 		dislikeButton.parentNode.insertBefore(divider, dislikeButton.nextSibling);
 
 		let wrapper = document.createElement("span");
