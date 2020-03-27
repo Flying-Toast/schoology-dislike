@@ -29,6 +29,10 @@ function getDislikes(postID) {
 	return dislikes.get(postID);
 }
 
+function myID() {
+	return siteNavigationUiProps.props.user.uid;
+}
+
 function main() {
 	loadCustomStyle();
 
