@@ -168,6 +168,64 @@ function dislikeClickHandler(e) {
 	const postID = e.target.id.split("-").pop();
 	//console.log(getDislikes(postID));
 	console.log(isComment(postID));
+	listDislikers(postID);
+}
+
+function listDislikers(postID) {
+	let popup = document.createElement("div");
+	popup.id = "dislikers-popup";
+	popup.className = "popups-box popups-medium likers";
+	popup.style.position = "fixed";
+	popup.style.left = "50vw";
+	popup.style.top = "50vh";
+	popup.style.transform = `translate(-50%, -50%)`;
+	popup.setAttribute("role", "dialog");
+	popup.innerHTML = `<div class="popups-title">
+    <div class="popups-close"><a id="dislikers-close-1" href="#"><span class="visually-hidden">Close</span></a></div>
+    <div class="title">People who dislike this</div>
+    <div class="clear-block"></div>
+</div>
+<div class="popups-body" tabindex="0">
+    <div class="item-list">
+        <ul id="dislikers-list"></ul>
+    </div>
+    <div class="submit-buttons"><a href="#" id="dislikers-close-2" class="cancel-btn schoology-processed sExtlink-processed">Close</a></div>
+</div>
+<div class="popups-buttons" tabindex="0"></div>
+<div class="popups-footer"></div>`;
+
+	document.body.appendChild(popup);
+	let closeButtons = [document.querySelector("#dislikers-close-1"), document.querySelector("#dislikers-close-2")];
+	for (let btn of closeButtons) {
+		btn.addEventListener("click", function() {
+			popup.remove();
+		});
+	}
+
+	let list = document.querySelector("#dislikers-list");
+	const dislikers = getDislikes(postID);
+
+	for (let person of dislikers) {
+		let listItem = document.createElement("li");
+		listItem.innerHTML = `<div class="picture">
+	<a class="disliker-profile-link-1 sExtlink-processed">
+		<div class="profile-picture-wrapper sUser-processed">
+			<div class="profile-picture"><img title="" class="imagecache imagecache-profile_sm"></div>
+		</div>
+	</a>
+</div>
+<div class="vertical-center"><a class="disliker-profile-link-2" title="View user profile." class="sExtlink-processed"></a></div>`;
+
+		let firstLink = listItem.querySelector(".disliker-profile-link-1");
+		firstLink.href = `/user/${person.userID}`;
+		firstLink.title = person.name;
+		firstLink.querySelector("img").src = profileImageURL(person.userID);
+		let secondLink = listItem.querySelector(".disliker-profile-link-2");
+		secondLink.href = `/user/${person.userID}`;
+		secondLink.innerText = person.name;
+
+		list.appendChild(listItem);
+	}
 }
 
 function profileImageURL(userID) {
