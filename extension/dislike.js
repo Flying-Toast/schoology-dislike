@@ -5,13 +5,13 @@ let loadedCheckInterval = setInterval(function() {
 	}
 }, 500);
 
-let dislikeCache = new Map();
+let _dislikeCache = new Map();
 function cacheDislikes(postID) {
-	if (dislikeCache.has(postID)) {
+	if (_dislikeCache.has(postID)) {
 		return;
 	}
 
-	dislikeCache.set(postID,
+	_dislikeCache.set(postID,
 		// TODO
 		// will query the backend, for now just returns placeholder data
 		[{
@@ -26,14 +26,22 @@ function cacheDislikes(postID) {
 
 function getDislikes(postID) {
 	cacheDislikes(postID);
-	return dislikeCache.get(postID);
+	return _dislikeCache.get(postID);
 }
 
+let _idOfLoggedInUser = null;
 function myID() {
-	return siteNavigationUiProps.props.user.uid;
+	return _idOfLoggedInUser;
 }
 
 function main() {
+	let dropdownToggle = document.querySelector(`div[data-sgy-sitenav="header-my-account-menu"]`).children[0];
+	dropdownToggle.click();
+
+	_idOfLoggedInUser = document.querySelector(`div[data-sgy-sitenav="header-my-account-menu"]`)
+							.children[1].children[0].querySelector(`[role="menuitem"]`).href.split("/")
+							.slice(-2)[0];
+	dropdownToggle.click();
 	loadCustomStyle();
 
 	domUpdateTick();
@@ -79,6 +87,7 @@ function addDislikeButton(likeButtonElement) {
 
 	const postID = likeButtonElement.id.split("-").pop();
 	cacheDislikes(postID);
+	const postDislikes = getDislikes(postID);
 
 	let dislikeButton = document.createElement("span");
 	dislikeButton.id = `dislike-id-${postID}`;
@@ -91,14 +100,17 @@ function addDislikeButton(likeButtonElement) {
 	let buttonContent = document.createElement("span");
 	buttonContent.id = `dislike-content-id-${postID}`;
 	buttonContent.className = "content";
-	buttonContent.innerText = "Dislike";
+	if (postDislikes.some(i => i.id == myID())) {
+		buttonContent.innerText = "Un-dislike";
+	} else {
+		buttonContent.innerText = "Dislike";
+	}
 	dislikeButton.appendChild(buttonContent);
 
 	let icon = makeDislikeIcon();
 
 	likeButtonElement.parentNode.insertBefore(dislikeButton, likeButtonElement.nextSibling);
 	likeButtonElement.after(" · ");
-	const postDislikes = getDislikes(postID);
 	if (isComment(postID)) {
 		let divider = document.createElement("span");
 		divider.innerText = " · ";
