@@ -41,6 +41,7 @@ function loadCustomStyle() {
 	document.head.appendChild(el);
 
 	el.sheet.insertRule(`.dislike-btn:hover { text-decoration: underline; }`);
+	el.sheet.insertRule(`.dislike-wrapper:hover > .dislike-count { text-decoration: underline; }`);
 }
 
 function makeDislikeIcon() {
@@ -104,9 +105,12 @@ function addDislikeButton(likeButtonElement) {
 		dislikeButton.parentNode.insertBefore(divider, dislikeButton.nextSibling);
 
 		let wrapper = document.createElement("span");
+		wrapper.className = "dislike-wrapper";
 		wrapper.style.cursor = "pointer";
 		let dislikeCount = document.createElement("span");
-		dislikeCount.innerText = " " + postDislikes.length;
+		dislikeCount.className = "dislike-count";
+		dislikeCount.innerText = postDislikes.length;
+		dislikeCount.style.marginLeft = "4px";
 		dislikeCount.style.color = "#4479B3";
 		wrapper.appendChild(icon);
 		wrapper.appendChild(dislikeCount);
