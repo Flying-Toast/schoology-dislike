@@ -95,10 +95,11 @@ function addDislikeButton(likeButtonElement) {
 	const postDislikes = getDislikes(postID);
 	if (isComment(postID)) {
 		let divider = document.createElement("span");
-		divider.style.borderRight = "1px solid #677583";
-		divider.style.margin = "0 3px";
+		divider.innerText = " · ";
+		divider.style.color = "#677583";
 		if (likeButtonElement.parentElement.querySelector(".s-like-comment-icon") == null) {
-			divider.style.borderColor = "transparent";
+			divider.innerText = " ";
+			divider.style.color = "transparent";
 		}
 		dislikeButton.parentNode.insertBefore(divider, dislikeButton.nextSibling);
 
