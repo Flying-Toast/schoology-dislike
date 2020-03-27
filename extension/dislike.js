@@ -5,6 +5,30 @@ let loadedCheckInterval = setInterval(function() {
 	}
 }, 500);
 
+let dislikes = new Map();
+function cacheDislikes(postID) {
+	if (dislikes.has(postID)) {
+		return;
+	}
+
+	dislikes.set(postID,
+		// TODO
+		// will query the backend, for now just returns placeholder data
+		[{
+			username: "Nicole Weng",
+			userID: 10790849
+		},{
+			username: "Isabella Shaw",
+			userID: 10781739
+		}]
+	);
+}
+
+function getDislikes(postID) {
+	cacheDislikes(postID);
+	return dislikes.get(postID);
+}
+
 function main() {
 	loadCustomStyle();
 
@@ -41,6 +65,7 @@ function addDislikeButton(likeButtonElement) {
 	likeContent.innerText = likeContent.innerText.trimEnd();
 
 	const postID = likeButtonElement.id.split("-").pop();
+	cacheDislikes(postID);
 
 	let dislikeButton = document.createElement("span");
 	dislikeButton.id = `dislike-id-${postID}`;
@@ -62,21 +87,6 @@ function addDislikeButton(likeButtonElement) {
 
 function dislikeClickHandler(e) {
 	const postID = e.target.id.split("-").pop();
-}
-
-// TODO
-// will query the backend, for now just returns placeholder data
-function fetchDislikes(postID) {
-	return [
-		{
-			username: "Nicole Weng",
-			userID: 10790849
-		},
-		{
-			username: "Isabella Shaw",
-			userID: 10781739
-		}
-	];
 }
 
 function profileImageURL(userID) {
