@@ -98,7 +98,6 @@ function addDislikeButton(likeButtonElement) {
 		let divider = document.createElement("span");
 		divider.innerText = " · ";
 		divider.style.color = "#677583";
-		dislikeButton.parentNode.insertBefore(divider, dislikeButton.nextSibling);
 
 		let wrapper = document.createElement("span");
 		wrapper.className = "dislike-wrapper";
@@ -112,6 +111,7 @@ function addDislikeButton(likeButtonElement) {
 		wrapper.appendChild(dislikeCount);
 
 		if (postDislikes.length != 0) {
+			dislikeButton.parentNode.insertBefore(divider, dislikeButton.nextSibling);
 			divider.parentNode.insertBefore(wrapper, divider.nextSibling);
 		}
 	}
