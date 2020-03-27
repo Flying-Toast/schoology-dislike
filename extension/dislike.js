@@ -15,11 +15,14 @@ function cacheDislikes(postID) {
 		// TODO
 		// will query the backend, for now just returns placeholder data
 		[{
-			username: "Nicole Weng",
+			name: "Nicole Weng",
 			userID: 10790849
 		},{
-			username: "Isabella Shaw",
+			name: "Isabella Shaw",
 			userID: 10781739
+		},{
+			name: "Simon Schwartz",
+			userID: 10785041
 		}]
 	);
 }
@@ -100,7 +103,7 @@ function addDislikeButton(likeButtonElement) {
 	let buttonContent = document.createElement("span");
 	buttonContent.id = `dislike-content-id-${postID}`;
 	buttonContent.className = "content";
-	if (postDislikes.some(i => i.id == myID())) {
+	if (postDislikes.some(i => i.userID == myID())) {
 		buttonContent.innerText = "Un-dislike";
 	} else {
 		buttonContent.innerText = "Dislike";
