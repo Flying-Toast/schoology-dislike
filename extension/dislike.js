@@ -15,13 +15,13 @@ function cacheDislikes(postID) {
 		// TODO
 		// will query the backend, for now just returns placeholder data
 		[{
-			name: "Nicole Weng",
-			userID: 10790849
+			name: "Nicholas Mount (placeholder)",
+			userID: 10784999
 		},{
-			name: "Isabella Shaw",
-			userID: 10781739
+			name: "Suzanne Murphy Ferguson (placeholder)",
+			userID: 10800159
 		},{
-			name: "Simon Schwartz",
+			name: "Simon Schwartz (placeholder)",
 			userID: 10785041
 		}]
 	);
@@ -39,7 +39,7 @@ function toggleDislike(postID) {
 	} else {
 		//TODO: send to backend
 		_dislikeCache.set(postID, postDislikes.concat([{
-			name: "TODO Guy",
+			name: myName(),
 			userID: myID()
 		}]));
 	}
@@ -56,8 +56,14 @@ function myID() {
 	return _idOfLoggedInUser;
 }
 
+let _nameOfLoggedInUser = null;
+function myName() {
+	return _nameOfLoggedInUser;
+}
+
 function main() {
 	let dropdownToggle = document.querySelector(`div[data-sgy-sitenav="header-my-account-menu"]`).children[0];
+	_nameOfLoggedInUser = dropdownToggle.children[0].children[1].innerText;
 	dropdownToggle.click();
 
 	_idOfLoggedInUser = document.querySelector(`div[data-sgy-sitenav="header-my-account-menu"]`)
