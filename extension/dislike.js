@@ -184,7 +184,7 @@ function listDislikers(postID) {
 	popup.style.transform = `translate(-50%, -50%)`;
 	popup.setAttribute("role", "dialog");
 	popup.innerHTML = `<div class="popups-title">
-    <div class="popups-close"><a id="dislikers-close-1" href="#"><span class="visually-hidden">Close</span></a></div>
+    <div class="popups-close"><a id="dislikers-close-1"><span class="visually-hidden">Close</span></a></div>
     <div class="title">People who dislike this</div>
     <div class="clear-block"></div>
 </div>
@@ -192,7 +192,7 @@ function listDislikers(postID) {
     <div class="item-list">
         <ul id="dislikers-list"></ul>
     </div>
-    <div class="submit-buttons"><a href="#" id="dislikers-close-2" class="cancel-btn schoology-processed sExtlink-processed">Close</a></div>
+    <div class="submit-buttons"><a id="dislikers-close-2" class="cancel-btn schoology-processed sExtlink-processed">Close</a></div>
 </div>
 <div class="popups-buttons" tabindex="0"></div>
 <div class="popups-footer"></div>`;
