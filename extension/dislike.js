@@ -5,13 +5,13 @@ let loadedCheckInterval = setInterval(function() {
 	}
 }, 500);
 
-let dislikes = new Map();
+let dislikeCache = new Map();
 function cacheDislikes(postID) {
-	if (dislikes.has(postID)) {
+	if (dislikeCache.has(postID)) {
 		return;
 	}
 
-	dislikes.set(postID,
+	dislikeCache.set(postID,
 		// TODO
 		// will query the backend, for now just returns placeholder data
 		[{
@@ -26,7 +26,7 @@ function cacheDislikes(postID) {
 
 function getDislikes(postID) {
 	cacheDislikes(postID);
-	return dislikes.get(postID);
+	return dislikeCache.get(postID);
 }
 
 function myID() {
@@ -61,7 +61,8 @@ function makeDislikeIcon() {
 
 function domUpdateTick() {
 	Array.from(document.querySelectorAll(".like-btn")).forEach(function(i) {
-		if (i.parentElement.querySelector(".dislike-btn") == null) {
+		let dislikeButton = i.parentElement.querySelector(".dislike-btn");
+		if (dislikeButton == null) {
 			addDislikeButton(i);
 		}
 	});
