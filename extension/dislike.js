@@ -46,9 +46,11 @@ function loadCustomStyle() {
 function makeDislikeIcon() {
 	let dislikeIcon = document.createElement("img");
 	dislikeIcon.src = browser.extension.getURL("dislike-icon.png");
-	dislikeIcon.width = 16;
-	dislikeIcon.height = 16;
+	dislikeIcon.width = 15;
+	dislikeIcon.height = 15;
 	dislikeIcon.style.verticalAlign = "text-bottom";
+	dislikeIcon.style.position = "relative";
+	dislikeIcon.style.bottom = "2px";
 	return dislikeIcon;
 }
 
@@ -86,10 +88,17 @@ function addDislikeButton(likeButtonElement) {
 	buttonContent.innerText = "Dislike";
 	dislikeButton.appendChild(buttonContent);
 
+	let icon = makeDislikeIcon();
+
 	likeButtonElement.parentNode.insertBefore(dislikeButton, likeButtonElement.nextSibling);
 	likeButtonElement.after(" · ");
 	if (isComment(postID)) {
-		dislikeButton.after(" |");
+		let divider = document.createElement("span");
+		divider.innerText = " |";
+		dislikeButton.parentNode.insertBefore(divider, dislikeButton.nextSibling);
+		if (getDislikes(postID).length != 0) {
+			divider.parentNode.insertBefore(icon, divider.nextSibling);
+		}
 	}
 }
 
