@@ -88,6 +88,9 @@ function addDislikeButton(likeButtonElement) {
 
 	likeButtonElement.parentNode.insertBefore(dislikeButton, likeButtonElement.nextSibling);
 	likeButtonElement.after(" · ");
+	if (isComment(postID)) {
+		dislikeButton.after(" |");
+	}
 }
 
 function dislikeClickHandler(e) {
