@@ -71,11 +71,14 @@ function makeDislikeIcon() {
 }
 
 function domUpdateTick() {
-	Array.from(document.querySelectorAll(".like-btn")).forEach(function(i) {
+	const likeButtons = Array.from(document.querySelectorAll(".like-btn"));
+	likeButtons.forEach(function(i) {
 		let dislikeButton = i.parentElement.querySelector(".dislike-btn");
 		if (dislikeButton == null) {
 			addDislikeButton(i);
 		}
+	});
+	likeButtons.forEach(function(i) {
 		tickDislikeButton(i);
 	});
 }
@@ -90,8 +93,9 @@ function addDislikeButton(likeButtonElement) {
 	likeContent.innerText = likeContent.innerText.trimEnd();
 
 	const postID = likeButtonElement.id.split("-").pop();
-	cacheDislikes(postID);
-	const postDislikes = getDislikes(postID);
+	setInterval(function() {
+		cacheDislikes(postID);
+	}, 0);
 
 	let dislikeButton = document.createElement("span");
 	dislikeButton.id = `dislike-id-${postID}`;
@@ -104,11 +108,6 @@ function addDislikeButton(likeButtonElement) {
 	let buttonContent = document.createElement("span");
 	buttonContent.id = `dislike-content-id-${postID}`;
 	buttonContent.className = "content";
-	if (postDislikes.some(i => i.userID == myID())) {
-		buttonContent.innerText = "Un-dislike";
-	} else {
-		buttonContent.innerText = "Dislike";
-	}
 	dislikeButton.appendChild(buttonContent);
 
 	let icon = makeDislikeIcon();
@@ -126,8 +125,9 @@ function addDislikeButton(likeButtonElement) {
 		wrapper.className = "dislike-wrapper";
 		wrapper.style.cursor = "pointer";
 		let dislikeCount = document.createElement("span");
+		dislikeCount.id = `dislike-count-${postID}`;
 		dislikeCount.className = "dislike-count";
-		dislikeCount.innerText = postDislikes.length;
+		dislikeCount.innerText = " ";
 		dislikeCount.style.marginLeft = "4px";
 		dislikeCount.style.color = "#4479B3";
 		wrapper.appendChild(icon);
@@ -153,6 +153,9 @@ function tickDislikeButton(likeButtonElement) {
 	if (isComment(postID)) {
 		let divider = document.querySelector(`#divider-${postID}`);
 		let wrapper = document.querySelector(`#dislike-wrapper-${postID}`);
+
+		let dislikeCount = document.querySelector(`#dislike-count-${postID}`);
+		dislikeCount.innerText = postDislikes.length;
 
 		if (postDislikes.length == 0) {
 			wrapper.style.display = "none";
