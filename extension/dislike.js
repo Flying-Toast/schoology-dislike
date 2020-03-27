@@ -180,6 +180,17 @@ function listDislikers(postID) {
 		return;
 	}
 	popupInProgress = true;
+	let overlay = document.createElement("div");
+	overlay.style.backgroundColor = "#ffffff";
+	overlay.style.position = "fixed";
+	overlay.style.top = "0";
+	overlay.style.left = "0";
+	overlay.style.width = "100vw";
+	overlay.style.height = "100vh";
+	overlay.style.opacity = "0.4";
+	overlay.style.zIndex = "1";
+	document.body.appendChild(overlay);
+
 	let popup = document.createElement("div");
 	popup.id = "dislikers-popup";
 	popup.className = "popups-box popups-medium likers";
@@ -190,7 +201,7 @@ function listDislikers(postID) {
 	popup.setAttribute("role", "dialog");
 	popup.innerHTML = `<div class="popups-title">
     <div class="popups-close"><a id="dislikers-close-1"><span class="visually-hidden">Close</span></a></div>
-    <div class="title">People who dislike this</div>
+    <div class="title">People who <span style="color: red;">dislike</span> this</div>
     <div class="clear-block"></div>
 </div>
 <div class="popups-body" tabindex="0">
@@ -207,6 +218,7 @@ function listDislikers(postID) {
 	for (let btn of closeButtons) {
 		btn.addEventListener("click", function() {
 			popup.remove();
+			overlay.remove();
 			popupInProgress = false;
 		});
 	}
