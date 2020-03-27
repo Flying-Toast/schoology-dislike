@@ -17,10 +17,10 @@ function main() {
 
 		let buttonContent = document.createElement("span");
 		buttonContent.className = "content";
-		buttonContent.innerText = " Dislike";
+		buttonContent.innerText = "Dislike";
 		dislikeButton.appendChild(buttonContent);
 
 		i.parentNode.insertBefore(dislikeButton, i.nextSibling);
-		i.after("·");
+		i.after("· ");
 	});
 }
