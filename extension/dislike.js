@@ -60,6 +60,11 @@ function domUpdateTick() {
 	});
 }
 
+function isComment(postID) {
+	let dislikeButton = document.querySelector(`#dislike-id-${postID}`);
+	return dislikeButton.parentNode.className.split("-")[0] == "comment";
+}
+
 function addDislikeButton(likeButtonElement) {
 	let likeContent = likeButtonElement.querySelector(".content");
 	likeContent.innerText = likeContent.innerText.trimEnd();
@@ -87,6 +92,8 @@ function addDislikeButton(likeButtonElement) {
 
 function dislikeClickHandler(e) {
 	const postID = e.target.id.split("-").pop();
+	//console.log(getDislikes(postID));
+	console.log(isComment(postID));
 }
 
 function profileImageURL(userID) {
