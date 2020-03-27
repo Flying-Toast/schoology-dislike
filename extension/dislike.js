@@ -174,7 +174,12 @@ function dislikeClickHandler(e) {
 	listDislikers(postID);
 }
 
+let popupInProgress = false;
 function listDislikers(postID) {
+	if (popupInProgress) {
+		return;
+	}
+	popupInProgress = true;
 	let popup = document.createElement("div");
 	popup.id = "dislikers-popup";
 	popup.className = "popups-box popups-medium likers";
@@ -202,6 +207,7 @@ function listDislikers(postID) {
 	for (let btn of closeButtons) {
 		btn.addEventListener("click", function() {
 			popup.remove();
+			popupInProgress = false;
 		});
 	}
 
