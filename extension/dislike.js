@@ -76,6 +76,7 @@ function domUpdateTick() {
 		if (dislikeButton == null) {
 			addDislikeButton(i);
 		}
+		tickDislikeButton(i);
 	});
 }
 
@@ -116,10 +117,12 @@ function addDislikeButton(likeButtonElement) {
 	likeButtonElement.after(" · ");
 	if (isComment(postID)) {
 		let divider = document.createElement("span");
+		divider.id = `divider-${postID}`;
 		divider.innerText = " · ";
 		divider.style.color = "#677583";
 
 		let wrapper = document.createElement("span");
+		wrapper.id = `dislike-wrapper-${postID}`;
 		wrapper.className = "dislike-wrapper";
 		wrapper.style.cursor = "pointer";
 		let dislikeCount = document.createElement("span");
@@ -130,9 +133,33 @@ function addDislikeButton(likeButtonElement) {
 		wrapper.appendChild(icon);
 		wrapper.appendChild(dislikeCount);
 
-		if (postDislikes.length != 0) {
-			dislikeButton.parentNode.insertBefore(divider, dislikeButton.nextSibling);
-			divider.parentNode.insertBefore(wrapper, divider.nextSibling);
+		dislikeButton.parentNode.insertBefore(divider, dislikeButton.nextSibling);
+		divider.parentNode.insertBefore(wrapper, divider.nextSibling);
+	}
+}
+
+function tickDislikeButton(likeButtonElement) {
+	const postID = likeButtonElement.id.split("-").pop();
+	const postDislikes = getDislikes(postID);
+
+	let buttonContent = document.querySelector(`#dislike-content-id-${postID}`);
+
+	if (postDislikes.some(i => i.userID == myID())) {
+		buttonContent.innerText = "Un-dislike";
+	} else {
+		buttonContent.innerText = "Dislike";
+	}
+
+	if (isComment(postID)) {
+		let divider = document.querySelector(`#divider-${postID}`);
+		let wrapper = document.querySelector(`#dislike-wrapper-${postID}`);
+
+		if (postDislikes.length == 0) {
+			wrapper.style.display = "none";
+			divider.style.display = "none";
+		} else {
+			wrapper.style.display = "";
+			divider.style.display = "";
 		}
 	}
 }
