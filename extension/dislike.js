@@ -8,16 +8,19 @@ let loadedCheckInterval = setInterval(function() {
 
 function main() {
 	Array.from(document.querySelectorAll(".like-btn")).forEach(function(i) {
+		const postID = i.id.split("-").pop();
+
 		let dislikeButton = document.createElement("span");
-		dislikeButton.className = "clickable like-btn";
+		dislikeButton.style.fontWeight = "normal";
+		dislikeButton.style.cursor = "pointer";
+		dislikeButton.style.color = "#4479b3";
 
 		let buttonContent = document.createElement("span");
 		buttonContent.className = "content";
 		buttonContent.innerText = " Dislike";
-
 		dislikeButton.appendChild(buttonContent);
 
 		i.parentNode.insertBefore(dislikeButton, i.nextSibling);
-		i.outerHTML += "·";
+		i.after("·");
 	});
 }
