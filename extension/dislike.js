@@ -92,12 +92,23 @@ function addDislikeButton(likeButtonElement) {
 
 	likeButtonElement.parentNode.insertBefore(dislikeButton, likeButtonElement.nextSibling);
 	likeButtonElement.after(" · ");
+	const postDislikes = getDislikes(postID);
 	if (isComment(postID)) {
 		let divider = document.createElement("span");
-		divider.innerText = " |";
+		divider.style.borderRight = "1px solid #677583";
+		divider.style.margin = "0 4px";
 		dislikeButton.parentNode.insertBefore(divider, dislikeButton.nextSibling);
-		if (getDislikes(postID).length != 0) {
-			divider.parentNode.insertBefore(icon, divider.nextSibling);
+
+		let wrapper = document.createElement("span");
+		wrapper.style.cursor = "pointer";
+		let dislikeCount = document.createElement("span");
+		dislikeCount.innerText = " " + postDislikes.length;
+		dislikeCount.style.color = "#4479B3";
+		wrapper.appendChild(icon);
+		wrapper.appendChild(dislikeCount);
+
+		if (postDislikes.length != 0) {
+			divider.parentNode.insertBefore(wrapper, divider.nextSibling);
 		}
 	}
 }
