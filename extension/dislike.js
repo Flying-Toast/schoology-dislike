@@ -23,7 +23,7 @@ function main() {
 		dislikeButton.appendChild(buttonContent);
 
 		i.parentNode.insertBefore(dislikeButton, i.nextSibling);
-		i.after("· ");
+		i.after(" · ");
 	});
 }
 
