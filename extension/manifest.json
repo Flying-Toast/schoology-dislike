@@ -1,0 +1,13 @@
+{
+	"manifest_version": 2,
+	"name": "Schoology Dislike Button",
+	"version": "1.0",
+	"description": "Adds a dislike button to Schoology.",
+	"web_accessible_resources": ["dislike-icon.png"],
+	"content_scripts": [
+		{
+			"matches": ["*://schoology.newton.k12.ma.us/*"],
+			"js": ["dislike.js"]
+		}
+	]
+}
