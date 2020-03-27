@@ -43,16 +43,23 @@ function addDislikeButton(likeButtonElement) {
 	const postID = likeButtonElement.id.split("-").pop();
 
 	let dislikeButton = document.createElement("span");
+	dislikeButton.id = `dislike-id-${postID}`;
 	dislikeButton.className = "dislike-btn";
 	dislikeButton.style.fontWeight = "normal";
 	dislikeButton.style.cursor = "pointer";
 	dislikeButton.style.color = "#4479B3";
+	dislikeButton.addEventListener("click", dislikeClickHandler);
 
 	let buttonContent = document.createElement("span");
+	buttonContent.id = `dislike-content-id-${postID}`;
 	buttonContent.className = "content";
 	buttonContent.innerText = "Dislike";
 	dislikeButton.appendChild(buttonContent);
 
 	likeButtonElement.parentNode.insertBefore(dislikeButton, likeButtonElement.nextSibling);
 	likeButtonElement.after(" · ");
+}
+
+function dislikeClickHandler(e) {
+	const postID = e.target.id.split("-").pop();
 }
