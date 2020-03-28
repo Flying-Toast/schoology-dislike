@@ -198,6 +198,27 @@ function tickDislikeButton(likeButtonElement) {
 			wrapper.style.display = "";
 			divider.style.display = "";
 		}
+	} else {
+		if (postDislikes.length == 0) {
+			return;
+		}
+
+		let parent = likeButtonElement.parentNode;
+		parent.querySelector(".feed-comments").className = "feed-comments";
+		parent.querySelector(".feed-comments-top").style.display = "";
+
+		let sentence = parent.querySelector(".s-like-sentence");
+		if (sentence == null) {
+			sentence = document.createElement("span");
+			sentence.className = "s-like-sentence";
+			if (parent.querySelector(".s-comments-post-form") == null) { // comments are disabled for this post
+				let feed = document.querySelector(".feed-comments");
+				feed.className = "feed-comments s-update-edge-no-comments s-update-edge-no-comment-box";
+				feed.appendChild(sentence);
+			} else {
+				parent.querySelector(".s-comments-post-form").prepend(sentence);
+			}
+		}
 	}
 }
 
