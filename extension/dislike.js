@@ -114,11 +114,6 @@ function domUpdateTick() {
 	});
 }
 
-function isComment(postID) {
-	let dislikeButton = document.querySelector(`#dislike-id-${postID}`);
-	return dislikeButton.parentNode.className.split("-")[0] == "comment";
-}
-
 function addDislikeButton(likeButtonElement) {
 	let likeContent = likeButtonElement.querySelector(".content");
 	likeContent.innerText = likeContent.innerText.trimEnd();
@@ -145,31 +140,29 @@ function addDislikeButton(likeButtonElement) {
 
 	likeButtonElement.parentNode.insertBefore(dislikeButton, likeButtonElement.nextSibling);
 	likeButtonElement.after(" · ");
-	if (isComment(postID)) {
-		let divider = document.createElement("span");
-		divider.id = `divider-${postID}`;
-		divider.innerText = " · ";
-		divider.style.color = "#677583";
+	let divider = document.createElement("span");
+	divider.id = `divider-${postID}`;
+	divider.innerText = " · ";
+	divider.style.color = "#677583";
 
-		let wrapper = document.createElement("span");
-		wrapper.id = `dislike-wrapper-${postID}`;
-		wrapper.className = "dislike-wrapper";
-		wrapper.style.cursor = "pointer";
-		let dislikeCount = document.createElement("span");
-		dislikeCount.id = `dislike-count-${postID}`;
-		dislikeCount.className = "dislike-count";
-		dislikeCount.innerText = " ";
-		dislikeCount.style.marginLeft = "4px";
-		dislikeCount.style.color = "#4479B3";
-		wrapper.appendChild(icon);
-		wrapper.appendChild(dislikeCount);
-		wrapper.addEventListener("click", function() {
-			listDislikers(postID);
-		});
+	let wrapper = document.createElement("span");
+	wrapper.id = `dislike-wrapper-${postID}`;
+	wrapper.className = "dislike-wrapper";
+	wrapper.style.cursor = "pointer";
+	let dislikeCount = document.createElement("span");
+	dislikeCount.id = `dislike-count-${postID}`;
+	dislikeCount.className = "dislike-count";
+	dislikeCount.innerText = " ";
+	dislikeCount.style.marginLeft = "4px";
+	dislikeCount.style.color = "#4479B3";
+	wrapper.appendChild(icon);
+	wrapper.appendChild(dislikeCount);
+	wrapper.addEventListener("click", function() {
+		listDislikers(postID);
+	});
 
-		dislikeButton.parentNode.insertBefore(divider, dislikeButton.nextSibling);
-		divider.parentNode.insertBefore(wrapper, divider.nextSibling);
-	}
+	dislikeButton.parentNode.insertBefore(divider, dislikeButton.nextSibling);
+	divider.parentNode.insertBefore(wrapper, divider.nextSibling);
 }
 
 function tickDislikeButton(likeButtonElement) {
@@ -184,41 +177,18 @@ function tickDislikeButton(likeButtonElement) {
 		buttonContent.innerText = "Dislike";
 	}
 
-	if (isComment(postID)) {
-		let divider = document.querySelector(`#divider-${postID}`);
-		let wrapper = document.querySelector(`#dislike-wrapper-${postID}`);
+	let divider = document.querySelector(`#divider-${postID}`);
+	let wrapper = document.querySelector(`#dislike-wrapper-${postID}`);
 
-		let dislikeCount = document.querySelector(`#dislike-count-${postID}`);
-		dislikeCount.innerText = postDislikes.length;
+	let dislikeCount = document.querySelector(`#dislike-count-${postID}`);
+	dislikeCount.innerText = postDislikes.length;
 
-		if (postDislikes.length == 0) {
-			wrapper.style.display = "none";
-			divider.style.display = "none";
-		} else {
-			wrapper.style.display = "";
-			divider.style.display = "";
-		}
+	if (postDislikes.length == 0) {
+		wrapper.style.display = "none";
+		divider.style.display = "none";
 	} else {
-		if (postDislikes.length == 0) {
-			return;
-		}
-
-		let parent = likeButtonElement.parentNode;
-		parent.querySelector(".feed-comments").className = "feed-comments";
-		parent.querySelector(".feed-comments-top").style.display = "";
-
-		let sentence = parent.querySelector(".s-like-sentence");
-		if (sentence == null) {
-			sentence = document.createElement("span");
-			sentence.className = "s-like-sentence";
-			if (parent.querySelector(".s-comments-post-form") == null) { // comments are disabled for this post
-				let feed = document.querySelector(".feed-comments");
-				feed.className = "feed-comments s-update-edge-no-comments s-update-edge-no-comment-box";
-				feed.appendChild(sentence);
-			} else {
-				parent.querySelector(".s-comments-post-form").prepend(sentence);
-			}
-		}
+		wrapper.style.display = "";
+		divider.style.display = "";
 	}
 }
 
