@@ -86,7 +86,13 @@ function loadCustomStyle() {
 
 function makeDislikeIcon() {
 	let dislikeIcon = document.createElement("img");
-	dislikeIcon.src = browser.runtime.getURL("dislike-icon.png");
+	let iconSource;
+	if (typeof(browser) == "undefined") {
+		iconSource = chrome.runtime.getURL("dislike-icon.png");
+	} else {
+		iconSource = browser.runtime.getURL("dislike-icon.png");
+	}
+	dislikeIcon.src = iconSource;
 	dislikeIcon.width = 15;
 	dislikeIcon.height = 15;
 	dislikeIcon.style.verticalAlign = "text-bottom";
