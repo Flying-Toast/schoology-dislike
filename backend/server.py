@@ -1,7 +1,7 @@
 # Django is overkill with its wisdom,
 # Bare SQLite far too complex,
 # So let's abuse the filesystem!
-from os import path
+from os import path, remove
 import json
 from flask import Flask, request, jsonify
 
@@ -42,8 +42,18 @@ def toggle_dislike():
         with open(filepath, "w") as f:
             f.write(f'[{{"name":"{username}","userID":{user_id}}}]')
     else:
-        # TODO
-        print("exists")
+        contents = None
+        with open(filepath, "r") as f:
+            contents = json.loads(f.read())
+        remove(filepath)
+        already_liked = len([i for i in contents if str(i["userID"]) == user_id]) != 0
+        if already_liked:
+            contents = [i for i in contents if str(i["userID"]) != user_id]
+        else:
+            contents.append({"name":username, "userID": int(user_id)})
+
+        with open(filepath, "w") as f:
+            f.write(json.dumps(contents))
 
     return "ok"
 
