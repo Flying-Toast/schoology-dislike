@@ -14,20 +14,9 @@ function cacheDislikes(postID) {
 		return;
 	}
 
-	_dislikeCache.set(postID,
-		// TODO
-		// will query the backend, for now just returns placeholder data
-		[{
-			name: "Nicholas Mount (placeholder)",
-			userID: 10784999
-		},{
-			name: "Suzanne Murphy Ferguson (placeholder)",
-			userID: 10800159
-		},{
-			name: "Simon Schwartz (placeholder)",
-			userID: 10785041
-		}]
-	);
+	fetch(`${backendHost}/dislikes?post=${postID}`).then(i => i.json()).then(function(data) {
+		_dislikeCache.set(postID, data);
+	});
 }
 
 function toggleDislike(postID) {
@@ -84,7 +73,9 @@ function toggleDislike(postID) {
 }
 
 function getDislikes(postID) {
-	cacheDislikes(postID);
+	if (!_dislikeCache.has(postID)) {
+		return [];
+	}
 	return _dislikeCache.get(postID);
 }
 
