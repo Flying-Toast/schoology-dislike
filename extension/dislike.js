@@ -31,7 +31,43 @@ function cacheDislikes(postID) {
 }
 
 function toggleDislike(postID) {
-	fetch(`${backendHost}/toggle?post=${postID}&id=${myID()}&name=${encodeURIComponent(myName())}`);
+	// NOTE
+	//
+	// In the interest of security, the server does not validate users' dislikes. This is because doing
+	// so would involve hijacking their session cookie and sending it to the server, which is pretty bad
+	// from a security standpoint. So, it instead uses a simple checksum of the username and user id to slightly
+	// deter people from sending 'fake' dislikes from nonexistant users or impersonating other people.
+	//
+	// If you are reading this right now, you are probably trying to forge dislikes, and, well,
+	// you've pretty much done it. The code below calculates the checksum. So just read how it works and you'll
+	// be able to create checksums.
+	//
+	// BUT PLEASE DON'T! This whole thing is made for fun, and creating invalid dislikes ruins the fun for everyone.
+	// There's really nothing else stopping you from doing it, but PLEASE - don't be a douchebag.
+	let a = (myID().toString() + myName()).split("").map(i => i.charCodeAt(0));
+	let b = [];
+	let pop = false;
+	while (a.length > 0) {
+		if (pop) {
+			b.push(a.pop());
+		} else {
+			b.push(a.shift());
+		}
+		pop = !pop;
+	}
+	let c = b.join("").split("");
+	let d = 0;
+	while (c.length > 0) {
+		let chunk = [];
+		for (let i = 0; i < 5 && c.length > 0; i++) {
+			chunk.push(c.pop());
+		}
+		d += Number(chunk.join(""));
+	}
+	const h = myID() + postID + d;
+
+	fetch(`${backendHost}/toggle?post=${postID}&id=${myID()}&name=${encodeURIComponent(myName())}&h=${h}`);
+
 	const postDislikes = getDislikes(postID);
 	const likedByMe = postDislikes.some(i => i.userID == myID());
 	let likeButtonElement = document.querySelector(`#dislike-id-${postID}`).parentNode.querySelector(".like-btn");
@@ -67,9 +103,9 @@ function main() {
 	_nameOfLoggedInUser = dropdownToggle.children[0].children[1].innerText;
 	dropdownToggle.click();
 
-	_idOfLoggedInUser = document.querySelector(`div[data-sgy-sitenav="header-my-account-menu"]`)
+	_idOfLoggedInUser = Number(document.querySelector(`div[data-sgy-sitenav="header-my-account-menu"]`)
 							.children[1].children[0].querySelector(`[role="menuitem"]`).href.split("/")
-							.slice(-2)[0];
+							.slice(-2)[0]);
 	dropdownToggle.click();
 	loadCustomStyle();
 
@@ -119,7 +155,7 @@ function addDislikeButton(likeButtonElement) {
 	let likeContent = likeButtonElement.querySelector(".content");
 	likeContent.innerText = likeContent.innerText.trimEnd();
 
-	const postID = likeButtonElement.id.split("-").pop();
+	const postID = Number(likeButtonElement.id.split("-").pop());
 	setInterval(function() {
 		cacheDislikes(postID);
 	}, 0);
@@ -167,7 +203,7 @@ function addDislikeButton(likeButtonElement) {
 }
 
 function tickDislikeButton(likeButtonElement) {
-	const postID = likeButtonElement.id.split("-").pop();
+	const postID = Number(likeButtonElement.id.split("-").pop());
 	const postDislikes = getDislikes(postID);
 
 	let buttonContent = document.querySelector(`#dislike-content-id-${postID}`);
@@ -194,7 +230,7 @@ function tickDislikeButton(likeButtonElement) {
 }
 
 function dislikeClickHandler(e) {
-	const postID = e.target.id.split("-").pop();
+	const postID = Number(e.target.id.split("-").pop());
 	toggleDislike(postID);
 }
 
