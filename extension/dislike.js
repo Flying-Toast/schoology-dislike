@@ -156,7 +156,7 @@ function addDislikeButton(likeButtonElement) {
 	likeContent.innerText = likeContent.innerText.trimEnd();
 
 	const postID = Number(likeButtonElement.id.split("-").pop());
-	setInterval(function() {
+	setTimeout(function() {
 		cacheDislikes(postID);
 	}, 0);
 
