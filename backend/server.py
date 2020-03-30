@@ -52,8 +52,9 @@ def toggle_dislike():
         else:
             contents.append({"name":username, "userID": int(user_id)})
 
-        with open(filepath, "w") as f:
-            f.write(json.dumps(contents))
+        if len(contents) != 0:
+            with open(filepath, "w") as f:
+                f.write(json.dumps(contents))
 
     return "ok"
 
