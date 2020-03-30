@@ -3,7 +3,7 @@
 # So let's abuse the filesystem!
 from os import path, remove
 import json
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, make_response
 
 DATA_DIR = "data"
 app = Flask(__name__)
@@ -12,14 +12,20 @@ app = Flask(__name__)
 def get_dislikes():
     post_id = request.args.get("post", None)
     if post_id is None:
-        return jsonify([])
+        resp = jsonify([])
+        resp.headers.add("Access-Control-Allow-Origin", "*")
+        return resp
 
     try:
         with open(path.join(DATA_DIR, str(int(post_id)) + ".json"), "r") as f:
             j = json.loads(f.read())
-            return jsonify(j)
+            resp = jsonify(j)
+            resp.headers.add("Access-Control-Allow-Origin", "*")
+            return resp
     except:
-        return jsonify([])
+        resp = jsonify([])
+        resp.headers.add("Access-Control-Allow-Origin", "*")
+        return resp
 
 
 # Uses GET instead of POST literally only because I'm too lazy to check the flask docs for how to handle POST requests
@@ -29,13 +35,16 @@ def toggle_dislike():
     username = request.args.get("name", None)
     user_id = request.args.get("id", None)
 
+    resp = make_response("what's up, client? Sincerely, Backend")
+    resp.headers.add("Access-Control-Allow-Origin", "*")
+
     if post_id is None or username is None or user_id is None:
-        return "bad req"
+        return resp
     try:
         post_id = str(int(post_id))
         user_id = str(int(user_id))
     except:
-        return "bad req"
+        return resp
 
     filepath = path.join(DATA_DIR, post_id + ".json")
     if not path.isfile(filepath):
@@ -55,7 +64,7 @@ def toggle_dislike():
         with open(filepath, "w") as f:
             f.write(json.dumps(contents))
 
-    return "ok"
+    return resp
 
 if __name__ == "__main__":
     app.run()
