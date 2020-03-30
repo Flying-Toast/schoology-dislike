@@ -1,5 +1,5 @@
-// NOTE: Remember to change permissions in manifest.json
-const backendHost = "http://localhost:5000";
+// NOTE: Remember to change permissions in manifest.json when updating host
+const backendHost = "http://schoology-dislike.theschwartz.xyz:8008";
 
 let loadedCheckInterval = setInterval(function() {
 	if (document.readyState == "complete") {

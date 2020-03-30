@@ -10,5 +10,5 @@
 			"js": ["dislike.js"]
 		}
 	],
-	"permissions": ["*://localhost/*"]
+	"permissions": ["*://schoology-dislike.theschwartz.xyz/*"]
 }
