@@ -9,5 +9,6 @@
 			"matches": ["*://schoology.newton.k12.ma.us/*"],
 			"js": ["dislike.js"]
 		}
-	]
+	],
+	"permissions": ["*://localhost/*"]
 }

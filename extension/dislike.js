@@ -1,3 +1,6 @@
+// NOTE: Remember to change permissions in manifest.json
+const backendHost = "http://localhost:5000";
+
 let loadedCheckInterval = setInterval(function() {
 	if (document.readyState == "complete") {
 		clearInterval(loadedCheckInterval);
@@ -27,17 +30,15 @@ function cacheDislikes(postID) {
 	);
 }
 
-//TODO: send to backend
 function toggleDislike(postID) {
+	fetch(`${backendHost}/toggle?post=${postID}&id=${myID()}&name=${encodeURIComponent(myName())}`);
 	const postDislikes = getDislikes(postID);
 	const likedByMe = postDislikes.some(i => i.userID == myID());
 	let likeButtonElement = document.querySelector(`#dislike-id-${postID}`).parentNode.querySelector(".like-btn");
 
 	if (likedByMe) {
-		//TODO: send to backend
 		_dislikeCache.set(postID, postDislikes.filter(i => i.userID != myID()));
 	} else {
-		//TODO: send to backend
 		_dislikeCache.set(postID, postDislikes.concat([{
 			name: myName(),
 			userID: myID()
