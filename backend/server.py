@@ -6,7 +6,7 @@ import json
 from flask import Flask, request, jsonify, make_response
 
 DATA_DIR = "data"
-app = Flask(__name__)
+app = Flask(__name__, static_url_path="")
 
 @app.route("/dislikes")
 def get_dislikes():
