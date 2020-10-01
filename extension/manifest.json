@@ -1,8 +1,8 @@
 {
 	"manifest_version": 2,
 	"name": "Schoology Dislike Button",
-	"version": "1.0",
-	"description": "Have you ever logged into Schoology, only to be inundated with thousands of updates from your teachers? If so, Schoology Dislike Button is for you! Schoology Dislike Button makes it easier than ever to show people how much you hate them. Install today, for just 5 payments of $9.99! Call now!",
+	"version": "1.1",
+	"description": "Have you ever logged into Schoology, only to be inundated with thousands of updates from your teachers?",
 	"web_accessible_resources": ["dislike-icon.png"],
 	"content_scripts": [
 		{
