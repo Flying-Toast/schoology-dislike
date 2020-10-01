@@ -107,4 +107,4 @@ def toggle_dislike():
     return resp
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8008)
+    app.run(host="0.0.0.0", port=8008, ssl_context=("/path/to/fullchain.pem", "/path/to/privkey.pem"))
