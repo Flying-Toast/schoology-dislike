@@ -8,12 +8,6 @@ from flask import Flask, request, jsonify, make_response
 DATA_DIR = "data"
 app = Flask(__name__, static_url_path="")
 
-@app.route("/test")
-def connection_test():
-    resp = jsonify([])
-    resp.headers.add("Access-Control-Allow-Origin", "*")
-    return resp
-
 @app.route("/dislikes")
 def get_dislikes():
     post_id = request.args.get("post", None)
