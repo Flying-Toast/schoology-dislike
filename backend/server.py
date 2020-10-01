@@ -8,6 +8,12 @@ from flask import Flask, request, jsonify, make_response
 DATA_DIR = "data"
 app = Flask(__name__, static_url_path="")
 
+@app.route("/test")
+def connection_test():
+    resp = jsonify([])
+    resp.headers.add("Access-Control-Allow-Origin", "*")
+    return resp
+
 @app.route("/dislikes")
 def get_dislikes():
     post_id = request.args.get("post", None)
@@ -36,7 +42,7 @@ def toggle_dislike():
     user_id = request.args.get("id", None)
     h = request.args.get("h")
 
-    resp = make_response("what's up, client? Sincerely, Backend")
+    resp = make_response("")
     resp.headers.add("Access-Control-Allow-Origin", "*")
 
     if post_id is None or username is None or user_id is None or h is None:
